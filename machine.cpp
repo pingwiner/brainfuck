@@ -12,7 +12,7 @@ namespace brainfuck {
 		run();
 	}
 
-	void Machine::exec(uint8_t* code, size_t size) {
+	void Machine::exec(char* code, size_t size) {
 		this->code = code;
 		this->codeSize = size;
 		reset();
@@ -20,9 +20,9 @@ namespace brainfuck {
 
 	void Machine::run() {
 		while (ip < codeSize) {
-			uint8_t cmd = code[ip++];
+			char cmd = code[ip++];
 			Instruction instr = getInstruction(cmd);
-			switch(instr) {
+			switch(instr.opCode) {
 				case inc:
 					handleInc();
 					break;
@@ -47,6 +47,9 @@ namespace brainfuck {
 				case out:
 					handleOut();
 					break;
+				case nop:
+					handleNop();
+					break;	
 				default:	
 					throw std::domain_error("Unknown instruction");
 			}
@@ -79,13 +82,14 @@ namespace brainfuck {
 			ip++;
 		} else {
 			int depth = 1;
+			Instruction instr;
 			do {
 				ip++;
 				if (ip >= codeSize) return;
-				Instruction instr = getInstruction(code[ip]);
-				if (instr == Instruction::begin) depth++;
-				if (instr == Instruction::end) depth--;
-			} while((getInstruction(code[ip]) != Instruction::end) || (depth > 0));
+				instr = getInstruction(code[ip]);
+				if (instr.opCode == OpCode::begin) depth++;
+				if (instr.opCode == OpCode::end) depth--;
+			} while((instr.opCode != OpCode::end) || (depth > 0));
 			ip++; 
 		}
 	}
@@ -95,15 +99,16 @@ namespace brainfuck {
 			ip++;
 		} else {
 			int depth = 1;
+			Instruction instr;
 			do {
 				if (ip == 0) {
 					throw std::out_of_range("Instruction pointer < 0");		
 				}
 				ip--;
-				Instruction instr = getInstruction(code[ip]);
-				if (instr == Instruction::begin) depth--;
-				if (instr == Instruction::end) depth++;
-			} while((getInstruction(code[ip]) != Instruction::begin) || (depth > 0));
+				instr = getInstruction(code[ip]);
+				if (instr.opCode == OpCode::begin) depth--;
+				if (instr.opCode == OpCode::end) depth++;
+			} while((instr.opCode != OpCode::begin) || (depth > 0));
 			ip++; 
 		}
 	}
@@ -116,7 +121,11 @@ namespace brainfuck {
 		outputStream.write(&data[dp], 1);
 	}
 
-	Instruction Machine::getInstruction(uint8_t cmd) {
-		return static_cast<Instruction>(cmd & 7);
+	void Machine::handleNop() {
+		ip++;
+	}
+
+	Instruction Machine::getInstruction(char cmd) {
+		return parser.parse(cmd);
 	}
 }

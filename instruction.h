@@ -1,6 +1,8 @@
+#pragma once
+
 namespace brainfuck {
 
-	enum Instruction {
+	enum OpCode {
 		inc = 0,
 		dec = 1,
 		next = 2,
@@ -8,7 +10,16 @@ namespace brainfuck {
 		begin = 4,
 		end = 5,
 		in = 6,
-		out = 7
+		out = 7,
+		nop = 8
+	};
+
+	class Instruction {
+		public: 
+
+		OpCode opCode;
+		int times;
+
 	};
 
 }

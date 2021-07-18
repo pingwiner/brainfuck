@@ -2,7 +2,7 @@
 
 namespace brainfuck {
 
-	Instruction CompressedParser::parse(char cmd) {
+	Instruction CompressedParser::parse(char cmd) const {
 		Instruction result;
 		result.opCode = static_cast<OpCode>(cmd & 7);
 		result.times = (cmd >> 3) & 31;

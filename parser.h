@@ -6,7 +6,7 @@ namespace brainfuck {
 
 	class Parser {
 	public:
-		virtual Instruction parse(char cmd) = 0;
+		virtual Instruction parse(char cmd) const = 0;
 	};
 
 }

@@ -12,7 +12,7 @@ namespace brainfuck {
 		run();
 	}
 
-	void Machine::exec(char* code, size_t size) {
+	void Machine::exec(const char* code, size_t size) {
 		this->code = code;
 		this->codeSize = size;
 		reset();
@@ -24,16 +24,16 @@ namespace brainfuck {
 			Instruction instr = getInstruction(cmd);
 			switch(instr.opCode) {
 				case inc:
-					handleInc();
+					handleInc(instr.times);
 					break;
 				case dec:
-					handleDec();
+					handleDec(instr.times);
 					break;
 				case next:
-					handleNext();
+					handleNext(instr.times);
 					break;
 				case prev:
-					handlePrev();
+					handlePrev(instr.times);
 					break;
 				case begin:
 					handleBegin();
@@ -42,10 +42,10 @@ namespace brainfuck {
 					handleEnd();
 					break;
 				case in:
-					handleIn();
+					handleIn(instr.times);
 					break;
 				case out:
-					handleOut();
+					handleOut(instr.times);
 					break;
 				case nop:
 					handleNop();
@@ -56,76 +56,82 @@ namespace brainfuck {
 		}
 	}
 
-	void Machine::handleInc() {
-		data[dp]++;
+	void Machine::handleInc(int times) {
+		while(times--) data[dp]++;
 	}
 
-	void Machine::handleDec() {
-		data[dp]--;
+	void Machine::handleDec(int times) {
+		while(times--) data[dp]--;
 	}
 
-	void Machine::handleNext() {
-		dp++;
-		if (dp >= memorySize) dp = 0;
+	void Machine::handleNext(int times) {
+		while(times--) {
+			dp++;
+			if (dp >= memorySize) dp = 0;
+		}
 	}
 
-	void Machine::handlePrev() {
-		if (dp == 0) {
-			dp = memorySize - 1;
-		} else {
-			dp--;
+	void Machine::handlePrev(int times) {
+		while(times--) {
+			if (dp == 0) {
+				dp = memorySize - 1;
+			} else {
+				dp--;
+			}
 		}
 	}
 
 	void Machine::handleBegin() {
-		if (data[dp] != 0) {
-			ip++;
-		} else {
+		if (data[dp] == 0) {
 			int depth = 1;
 			Instruction instr;
 			do {
-				ip++;
 				if (ip >= codeSize) return;
 				instr = getInstruction(code[ip]);
 				if (instr.opCode == OpCode::begin) depth++;
 				if (instr.opCode == OpCode::end) depth--;
+				ip++;
 			} while((instr.opCode != OpCode::end) || (depth > 0));
-			ip++; 
 		}
 	}
 
 	void Machine::handleEnd() {
-		if (data[dp] == 0) {
-			ip++;
-		} else {
-			int depth = 1;
-			Instruction instr;
-			do {
-				if (ip == 0) {
-					throw std::out_of_range("Instruction pointer < 0");		
-				}
-				ip--;
-				instr = getInstruction(code[ip]);
-				if (instr.opCode == OpCode::begin) depth--;
-				if (instr.opCode == OpCode::end) depth++;
-			} while((instr.opCode != OpCode::begin) || (depth > 0));
-			ip++; 
+		if (data[dp] == 0) return;
+		ip--;
+		int depth = 1;
+		Instruction instr;
+		do {
+			if (ip == 0) {
+				throw std::out_of_range("Instruction pointer < 0");		
+			}
+			ip--;
+			instr = getInstruction(code[ip]);
+			if (instr.opCode == OpCode::begin) depth--;
+			if (instr.opCode == OpCode::end) depth++;
+		} while((instr.opCode != OpCode::begin) || (depth > 0));
+		ip++; 
+	}
+
+	void Machine::handleIn(int times) {
+		while(times--) {
+			inputStream.read(&data[dp], 1);
 		}
 	}
 
-	void Machine::handleIn() {
-		inputStream.read(&data[dp], 1);
+	void Machine::handleOut(int times) {
+		while(times--) {
+			outputStream.write(&data[dp], 1);
+		}	
 	}
 
-	void Machine::handleOut() {
-		outputStream.write(&data[dp], 1);
-	}
-
-	void Machine::handleNop() {
-		ip++;
-	}
+	void Machine::handleNop() {}
 
 	Instruction Machine::getInstruction(char cmd) {
 		return parser.parse(cmd);
+	}
+
+	void Machine::memDump(size_t startOffset, size_t size, std::ostream& output) const {	
+		if (startOffset + size > memorySize) throw std::out_of_range("Out of memory range");
+		output.write(&data[startOffset], size);
 	}
 }

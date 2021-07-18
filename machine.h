@@ -10,8 +10,8 @@ namespace brainfuck {
 
 	class Machine {
 	public:
-		Machine(Parser& parser) : Machine(parser, std::cin, std::cout){};
-		Machine(Parser& parser, std::istream& input, std::ostream& output) : parser(parser), inputStream(input), outputStream(output)  {
+		Machine(const Parser& parser) : Machine(parser, std::cin, std::cout){};
+		Machine(const Parser& parser, std::istream& input, std::ostream& output) : parser(parser), inputStream(input), outputStream(output)  {
 			code = nullptr;
 			ip = 0;
 			codeSize = 0;
@@ -19,7 +19,8 @@ namespace brainfuck {
 		};
 		virtual ~Machine() {}
 		void reset();
-		void exec(char* code, size_t size);
+		void exec(const char* code, size_t size);
+		void memDump(size_t startOffset, size_t size, std::ostream& output) const;
 
 	private:
 		static const size_t memorySize = 0x10000;
@@ -27,23 +28,23 @@ namespace brainfuck {
 		char data[memorySize];	//data memory
 		size_t dp;  			//data pointer
 
-		char* code;			//instruction pointer
+		const char* code;			//instruction pointer
 		size_t ip;
 		size_t codeSize;
 
 		std::istream& inputStream;
 		std::ostream& outputStream;
-		Parser& parser;
+		const Parser& parser;
 
 		void run();
-		void handleInc();
-		void handleDec();
+		void handleInc(int times);
+		void handleDec(int times);
 		void handleBegin();
 		void handleEnd();
-		void handlePrev();
-		void handleNext();
-		void handleIn();
-		void handleOut();
+		void handlePrev(int times);
+		void handleNext(int times);
+		void handleIn(int times);
+		void handleOut(int times);
 		void handleNop();
 		Instruction getInstruction(char cmd);
 		

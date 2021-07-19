@@ -40,6 +40,13 @@ int main(int argc, char *argv[]) {
 	std::unique_ptr<Parser> parser = ParserFactory::getParser(compressed);
 
 
+	if (optind == argc) {
+		std::cout << "Brainfuck interpreter" << std::endl;
+		std::cout << "  Usage: bf [-c] <filename>" << std::endl;
+		std::cout << "  Use flag -c for compressed files\n" << std::endl;
+		return 0;
+	}
+
 	for (index = optind; index < argc; index++) {
 	    execFile(argv[index], *parser);
 	}

@@ -1,18 +1,16 @@
-
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
-#include "machine.h"
+#include "generator.h"
 #include "parser.h"
 #include "parser_factory.h"
 
 using namespace brainfuck;
 
-void execFile(const char* filename, const Parser& parser) {
-	Machine machine(parser);
+void parseFile(const char* filename, Generator& generator) {
 	std::ifstream in(filename);
 	std::string contents((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-	machine.exec(contents.c_str(), contents.size());
+	generator.addSrc(contents);
 }
 
 
@@ -20,12 +18,16 @@ int main(int argc, char *argv[]) {
 	int index;
 	int c;
 	bool compressed = false;
+	const char* outFile = "out.com";
 
-	while ((c = getopt(argc, argv, "c")) != -1) {
+	while ((c = getopt(argc, argv, "co:")) != -1) {
 	    switch (c) {
 	      case 'c':
 	        compressed = true;
 	        break;
+	      case 'o':
+	        outFile = optarg;
+	        break;	        
 	      case '?':
 			if (isprint (optopt))
 	          fprintf(stderr, "Unknown option `-%c'.\n", optopt);
@@ -41,16 +43,21 @@ int main(int argc, char *argv[]) {
 
 
 	if (optind == argc) {
-		std::cout << "Brainfuck interpreter" << std::endl;
-		std::cout << "  Usage: bf [-c] <filename>" << std::endl;
+		std::cout << "Brainfuck compiler" << std::endl;
+		std::cout << "  Usage: bfc [-c] source.bf -o out.com" << std::endl;
 		std::cout << "  Use flag -c for compressed files\n" << std::endl;
 		return 0;
 	}
 
+	Generator generator(*parser);
+
 	for (index = optind; index < argc; index++) {
-	    execFile(argv[index], *parser);
+	    parseFile(argv[index], generator);
 	}
 
+	std::ofstream out(outFile);
+	generator.generate(out);
+	out.close();
 
 	return 0;
 }

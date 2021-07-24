@@ -3,6 +3,8 @@
 #include "x86_dec.h"
 #include "x86_prev.h"
 #include "x86_next.h"
+#include "x86_in.h"
+#include "x86_out.h"
 
 namespace brainfuck {
 
@@ -51,37 +53,25 @@ namespace brainfuck {
 
 	void Generator::handleInc(int times) {
 		while(times--) {
-			auto instr = std::make_unique<X86inc>();
-			instr->offset = codeSize;
-			codeSize += instr->getSize();
-			instructions.push_back(std::move(instr));
+			makeInstruction<X86inc>();
 		}
 	}
 
 	void Generator::handleDec(int times) {
 		while(times--) {
-			auto instr = std::make_unique<X86dec>();
-			instr->offset = codeSize;
-			codeSize += instr->getSize();
-			instructions.push_back(std::move(instr));
+			makeInstruction<X86dec>();
 		}
 	}
 
 	void Generator::handleNext(int times) {
 		while(times--) {
-			auto instr = std::make_unique<X86next>();
-			instr->offset = codeSize;
-			codeSize += instr->getSize();
-			instructions.push_back(std::move(instr));
+			makeInstruction<X86next>();
 		}
 	}
 
 	void Generator::handlePrev(int times) {
 		while(times--) {
-			auto instr = std::make_unique<X86prev>();
-			instr->offset = codeSize;
-			codeSize += instr->getSize();
-			instructions.push_back(std::move(instr));
+			makeInstruction<X86prev>();
 		}
 	}
 
@@ -93,18 +83,15 @@ namespace brainfuck {
 
 	void Generator::handleIn(int times) {
 		while(times--) {
+			makeInstruction<X86in>(inProcOffset);
 		}
 	}
 
 	void Generator::handleOut(int times) {
 		while(times--) {
+			makeInstruction<X86out>(outProcOffset);
 		}
 	}
 
 
 }
-//			const char inc[] = {0FEh, 4};
-//			const char dec[] = {0FEh, 0ch};
-//			const char next[] = {46h}
-//			const char prev[] = {4eh}
-//			const char in[] = {0e8h, 0, 0}

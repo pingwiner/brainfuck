@@ -11,7 +11,7 @@ namespace brainfuck {
 		public:
 			X86instruction(OpCode opcode) : opCode(opcode) {}
 			OpCode opCode;
-			uint16_t arg;
+			size_t arg;
 			size_t offset;
 
 			virtual size_t getSize() const = 0;
@@ -21,6 +21,5 @@ namespace brainfuck {
 				out.write((char*) getData(), getSize());
 			}
 
-//			const char in[] = {0e8h, 0, p0}
 	};
 }

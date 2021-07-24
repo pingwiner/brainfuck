@@ -21,6 +21,24 @@ namespace brainfuck {
 			const Parser& parser;
 			std::vector<std::unique_ptr<X86instruction>> instructions;
 			size_t codeSize;
+
+			template <typename T>
+			void makeInstruction(size_t arg) {
+				auto instr = std::make_unique<T>();
+				instr->offset = codeSize;
+				codeSize += instr->getSize();
+				instr->arg = arg;
+				instructions.push_back(std::move(instr));
+			}
+
+			template <typename T>
+			void makeInstruction() {
+				makeInstruction<T>(0);
+			}
+
+			const size_t inProcOffset = 12;
+			const size_t outProcOffset = 22;
+
 			void handleInc(int times);
 			void handleDec(int times);
 			void handleBegin();

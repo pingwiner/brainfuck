@@ -3,8 +3,9 @@
 #include "x86_dec.h"
 #include "x86_prev.h"
 #include "x86_next.h"
-#include "x86_in.h"
-#include "x86_out.h"
+#include "x86_call.h"
+#include "x86_begin.h"
+#include "x86_end.h"
 
 namespace brainfuck {
 
@@ -46,7 +47,25 @@ namespace brainfuck {
 				default:	
 					throw std::domain_error("Unknown instruction");
 			}
-    		
+    	}
+
+    	std::vector<int> stack;
+    	int position = 0;
+		for(auto const& i : instructions) {
+			if (i->opCode == begin) {
+				stack.push_back(position);
+			}
+			if (i->opCode == end) {
+				int prevPosition = stack.back();
+				stack.pop_back();
+				i->arg = instructions[prevPosition]->offset;
+				instructions[prevPosition]->arg = i->offset;
+			}
+			position++;
+		}
+
+		for(auto const& i : instructions) {
+			i->serialize(output);
 		}
 	}
 
@@ -76,20 +95,22 @@ namespace brainfuck {
 	}
 
 	void Generator::handleBegin() {
+		makeInstruction<X86begin>();
 	}
 
 	void Generator::handleEnd() {
+		makeInstruction<X86end>();
 	}
 
 	void Generator::handleIn(int times) {
 		while(times--) {
-			makeInstruction<X86in>(inProcOffset);
+			makeInstruction<X86call>(inProcOffset);
 		}
 	}
 
 	void Generator::handleOut(int times) {
 		while(times--) {
-			makeInstruction<X86out>(outProcOffset);
+			makeInstruction<X86call>(outProcOffset);
 		}
 	}
 

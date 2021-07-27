@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
+#include <array>
 #include "instruction.h"
 
 namespace brainfuck {

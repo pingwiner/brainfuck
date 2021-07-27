@@ -14,7 +14,12 @@ namespace brainfuck {
 	}
 	
 	void Generator::generate(std::ofstream& output) {
-		codeSize = 0;
+		write(output, startup.data(), startup.size());
+		write(output, inProc.data(), inProc.size());
+		write(output, outProc.data(), outProc.size());
+
+		codeSize = startup.size() + inProc.size() + outProc.size();
+
 		for(char& c : src) {
 			Instruction instr = parser.parse(c);
 			switch(instr.opCode) {

@@ -7,16 +7,18 @@ namespace brainfuck {
 	class X86begin : public X86instruction {
 		public:
 			X86begin() : X86instruction(begin) {};
-			size_t getSize() const override {return 3;}
-			const uint8_t* getData() override {return &bin[0];}
+			size_t getSize() const override {return bin.size();}
+			const uint8_t* getData() override {return bin.data();}
 
 			void serialize(std::ofstream& out) override {
-
+				uint16_t relAddr = arg - offset;
+				bin[5] = relAddr & 0xff;
+				bin[6] = relAddr >> 8;
 				X86instruction::serialize(out);
 			}
 
 		private:
-			uint8_t bin[5] = {0, 0, 0, 0, 0};	
+			std::array<uint8_t, 7> bin = {0x38, 0x1c, 0x75, 0x03, 0xe9, 0, 0};
 		
 	};
 }

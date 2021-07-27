@@ -49,6 +49,7 @@ namespace brainfuck {
 
 			const size_t inProcOffset = startup.size();
 			const size_t outProcOffset = startup.size() + inProc.size();
+			const uint8_t ret = 0xc3;
 
 			void handleInc(int times);
 			void handleDec(int times);

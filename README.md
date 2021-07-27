@@ -14,3 +14,8 @@ Compressing source:
   
 Running compressed source:
   bf -c source.cbf
+
+Brainfuck compiler
+    bfc source.bf -o out.com
+
+Compiles brainfuck source to MS-DOS COM executable.

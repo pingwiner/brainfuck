@@ -63,8 +63,8 @@ namespace brainfuck {
 			if (i->opCode == end) {
 				int prevPosition = stack.back();
 				stack.pop_back();
-				i->arg = instructions[prevPosition]->offset;
-				instructions[prevPosition]->arg = i->offset;
+				i->arg = instructions[prevPosition]->offset + instructions[prevPosition]->getSize();
+				instructions[prevPosition]->arg = i->offset + i->getSize();
 			}
 			position++;
 		}
@@ -72,6 +72,7 @@ namespace brainfuck {
 		for(auto const& i : instructions) {
 			i->serialize(output);
 		}
+		output.write((const char*) &ret, 1); 
 	}
 
 

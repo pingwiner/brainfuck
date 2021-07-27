@@ -11,7 +11,7 @@ namespace brainfuck {
 			const uint8_t* getData() override {return bin.data();}
 
 			void serialize(std::ofstream& out) override {
-				uint16_t relAddr = 0xffff - (offset - arg);
+				uint16_t relAddr = 0xffff - (offset + getSize() - arg) + 1;
 				bin[1] = relAddr & 0xff;
 				bin[2] = relAddr >> 8;
 				X86instruction::serialize(out);

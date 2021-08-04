@@ -33,8 +33,8 @@ namespace brainfuck {
 			void makeInstruction(size_t arg) {
 				auto instr = std::make_unique<T>();
 				instr->offset = codeSize;
-				codeSize += instr->getSize();
 				instr->arg = arg;
+				codeSize += instr->getSize();				
 				instructions.push_back(std::move(instr));
 			}
 

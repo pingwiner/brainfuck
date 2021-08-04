@@ -77,14 +77,22 @@ namespace brainfuck {
 
 
 	void Generator::handleInc(int times) {
-		while(times--) {
-			makeInstruction<X86inc>();
+		if (times <= 3) {
+			while(times--) {
+				makeInstruction<X86inc>();
+			}
+		} else {
+			makeInstruction<X86inc>(times);
 		}
 	}
 
 	void Generator::handleDec(int times) {
-		while(times--) {
-			makeInstruction<X86dec>();
+		if (times <= 3) {
+			while(times--) {
+				makeInstruction<X86dec>();
+			}
+		} else {
+			makeInstruction<X86dec>(times);
 		}
 	}
 

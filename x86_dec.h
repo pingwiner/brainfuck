@@ -9,7 +9,7 @@ namespace brainfuck {
 
 			size_t getSize() const override {
 				if (arg) {
-					return 6;
+					return 3;
 				} else {
 					return 2;
 				}
@@ -25,14 +25,14 @@ namespace brainfuck {
 			
 			void serialize(std::ofstream& out) override {
 				if (arg) {
-					binOptimized[3] = (uint8_t) arg;
+					binOptimized[2] = (uint8_t) arg;
 				}
 				X86instruction::serialize(out);
 			}
 
 		private:
 			const uint8_t bin[2] = {0xfe, 0x0c};	
-			uint8_t binOptimized[6] = {0x8a, 0x04, 0x2c, 0x0, 0x88, 0x04};
+			uint8_t binOptimized[6] = {0x80, 0x2c, 0x00};
 		
 
 	};

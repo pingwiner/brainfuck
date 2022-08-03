@@ -1,4 +1,3 @@
-
 name: Jira Issue Status
 description: Get status of specific Jira issue
 
@@ -10,6 +9,15 @@ on:
         required: true
     outputs:
       result:
-runs:
-  using: 'node12'
-  main: './js/index.js'
+jobs:
+  fetch_status:
+    name: Fetch issue status
+    runs-on: ubuntu-latest
+    outputs:
+      status:
+
+    steps:
+    - name: fetch
+      id: fetch
+      using: 'node12'
+      run: node ./js/index.js

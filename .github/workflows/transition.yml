@@ -18,6 +18,12 @@ jobs:
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
+
+    - name: Get issue status
+      uses: ./.github/workflows/status.yml
+      with:
+        issue: "IM-1"
+
     - name: Transition issue
       uses: atlassian/gajira-transition@master
       with:

@@ -8,13 +8,8 @@ jobs:
   task-transition-issue:
     name: Transition Issue
     runs-on: ubuntu-latest
-    inputs:
-      issue:
-        required: true
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
 
     - name: Login
       uses: atlassian/gajira-login@master
@@ -26,5 +21,5 @@ jobs:
     - name: Transition issue
       uses: atlassian/gajira-transition@master
       with:
-        issue: ${{ inputs.issue  }}
+        issue: "IM-1"
         transition: "In Progress"

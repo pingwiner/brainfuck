@@ -1,15 +1,15 @@
 
 name: Jira Issue Status
 description: Get status of specific Jira issue
-branding:
-  icon: 'chevron-right'
-  color: 'blue'
-inputs:
-  issue:
-    description: Key of the issue 
-    required: true
-outputs:
-  result:
+
+on:
+  workflow_call:
+    inputs:
+      issue:
+        description: Key of the issue 
+        required: true
+    outputs:
+      result:
 runs:
   using: 'node12'
   main: './js/index.js'

@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     inputs:
       issue:
-        description: Key of the issue to be transitioned
-	required: true
+        required: true
 
     steps:
     - name: Checkout

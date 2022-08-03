@@ -1,0 +1,12 @@
+name: Jira Issue Status
+description: Get status of specific Jira issue
+
+inputs:
+  issue:
+    description: Key of the issue 
+    required: true
+outputs:
+  result:
+runs:
+  using: 'node12'
+  main: './js/index.js'

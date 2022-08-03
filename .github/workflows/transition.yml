@@ -20,7 +20,7 @@ jobs:
 
 
     - name: Get issue status
-      uses: ./.github/workflows/status.yml
+      uses: ./.github/workflows/action.yml
       with:
         issue: "IM-1"
 

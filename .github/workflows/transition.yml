@@ -20,7 +20,7 @@ jobs:
 
 
     - name: Get issue status
-      uses: ./.github/workflows/status.yml
+      uses: https://github.com/pingwiner/gajira-status@main
       with:
         issue: "IM-1"
 

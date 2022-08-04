@@ -16,7 +16,7 @@ void execFile(const char* filename, const Parser& parser) {
 }
 
 
-int main(int argc, char *argv[]) {
+inta main(int argc, char *argv[]) {
 	int index;
 	int c;
 	bool compressed = false;

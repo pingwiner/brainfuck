@@ -23,4 +23,9 @@ jobs:
     uses: ./.github/workflows/transition.yml
     with:
       issue: "IM-1"
+    secrets:
+      SF_ORG_ALIAS: ${{ secrets.JIRA_BASE_URL }}
+      SF_USERNAME: ${{ secrets.JIRA_USER_EMAIL }}
+      SF_INSTANCE_URL: ${{ secrets.JIRA_API_TOKEN }}
+
 

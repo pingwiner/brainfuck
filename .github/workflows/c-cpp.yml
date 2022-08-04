@@ -18,8 +18,9 @@ jobs:
       run: make
       continue-on-error: false
 
-    - id: change_status
-      uses: ./.github/workflows/transition.yml
-      with:
-        issue: "IM-1"
-        
+  change_status:
+    needs: [build]
+    uses: ./.github/workflows/transition.yml
+    with:
+      issue: "IM-1"
+

@@ -6,13 +6,6 @@ on:
       issue:   
         required: true
         type: string
-    secrets:
-      JIRA_BASE_URL:
-        required: true
-      JIRA_USER_EMAIL:
-        required: true
-      JIRA_API_TOKEN:
-        required: true
         
 
 jobs:
@@ -28,9 +21,9 @@ jobs:
     - name: Login
       uses: atlassian/gajira-login@master
       env:
-        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        JIRA_BASE_URL: "https://im486dx.atlassian.net/"
+        JIRA_USER_EMAIL: "im486dx@gmail.com"
+        JIRA_API_TOKEN: "nlLbI2znqb5LYyyzj8In1110"
 
 
     - name: Get issue status

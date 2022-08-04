@@ -6,6 +6,14 @@ on:
       issue:   
         required: true
         type: string
+    secrets:
+      JIRA_BASE_URL:
+        required: true
+      JIRA_USER_EMAIL:
+        required: true
+      JIRA_API_TOKEN:
+        required: true
+        
 
 jobs:
     

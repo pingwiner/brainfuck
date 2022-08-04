@@ -36,5 +36,5 @@ jobs:
       uses: atlassian/gajira-transition@master
       if: ${{ steps.get_status.outputs.result == 'To Do' }}
       with:
-        issue: inputs.issue
+        issue: ${{ inputs.issue }}
         transition: "In Progress"

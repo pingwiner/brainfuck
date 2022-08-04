@@ -1,12 +1,11 @@
 name: Change status
 
 on: 
-  workflow_call:
-  
-inputs:
-  issue:   
-    required: true
-    type: string
+  workflow_call:  
+    inputs:
+      issue:   
+        required: true
+        type: string
 
 jobs:
     

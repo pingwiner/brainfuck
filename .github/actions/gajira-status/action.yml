@@ -1,0 +1,9 @@
+name: 'Get issue status'
+description: 'Returns status of Jira issue'
+inputs:
+  issue:
+    description: 'Jira issue ID'
+    required: true
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

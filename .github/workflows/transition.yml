@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
+    - name: Check out repository
+      uses: actions/checkout@v3
+        
     - name: Login
       uses: atlassian/gajira-login@master
       env:
@@ -20,7 +22,7 @@ jobs:
 
 
     - name: Get issue status
-      uses: "https://github.com/pingwiner/gajira-status@main"
+      uses: ./.github/actions/gajira-status
       with:
         issue: "IM-1"
 

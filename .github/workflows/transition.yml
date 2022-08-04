@@ -30,7 +30,7 @@ jobs:
       id: get_status
       uses: ./.github/actions/gajira-status
       with:
-        issue: inputs.issue
+        issue: ${{ inputs.issue }}
 
     - name: Transition issue
       uses: atlassian/gajira-transition@master

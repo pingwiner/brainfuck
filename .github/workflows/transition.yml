@@ -21,7 +21,7 @@ jobs:
     - name: Login
       uses: atlassian/gajira-login@master
       env:
-        JIRA_BASE_URL: "https://im486dx.atlassian.net/"
+        JIRA_BASE_URL: "https://im486dx.atlassian.net"
         JIRA_USER_EMAIL: "im486dx@gmail.com"
         JIRA_API_TOKEN: "nlLbI2znqb5LYyyzj8In1110"
 

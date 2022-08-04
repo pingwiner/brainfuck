@@ -20,7 +20,7 @@ jobs:
 
 
     - name: Get issue status
-      uses: https://github.com/pingwiner/gajira-status@main
+      uses: "https://github.com/pingwiner/gajira-status@main"
       with:
         issue: "IM-1"
 

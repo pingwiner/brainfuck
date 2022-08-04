@@ -29,7 +29,7 @@ module.exports = class {
 
     console.log(`${issueId} status is : ${status} .`)
 
-    return { status: status }
+    return status
   }
 
 }
@@ -31792,7 +31792,7 @@ async function exec () {
       const extendedConfig = Object.assign({}, config, result)
 
       fs.writeFileSync(configPath, YAML.stringify(extendedConfig))
-
+      core.setOutput("result", result);
       return
     }
 

@@ -22,12 +22,14 @@ jobs:
 
 
     - name: Get issue status
+      id: get_status
       uses: ./.github/actions/gajira-status
       with:
         issue: "IM-1"
 
     - name: Transition issue
       uses: atlassian/gajira-transition@master
+      if: ${{ steps.get_status.outputs.result != 'To Do' }}
       with:
         issue: "IM-1"
         transition: "In Progress"

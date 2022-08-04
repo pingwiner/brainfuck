@@ -23,7 +23,7 @@ module.exports = class {
 
     console.log(`${issueId} status is : ${status} .`)
 
-    return { status: status }
+    return status
   }
 
 }

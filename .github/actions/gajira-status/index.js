@@ -21,7 +21,7 @@ async function exec () {
       const extendedConfig = Object.assign({}, config, result)
 
       fs.writeFileSync(configPath, YAML.stringify(extendedConfig))
-
+      core.setOutput("result", result);
       return
     }
 

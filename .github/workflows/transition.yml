@@ -23,7 +23,7 @@ jobs:
       env:
         JIRA_BASE_URL: "https://im486dx.atlassian.net"
         JIRA_USER_EMAIL: "im486dx@gmail.com"
-        JIRA_API_TOKEN: "j4jloAHYBerb7aR1o6KnDEEC"
+        JIRA_API_TOKEN: "Q5LdtcwnT00MFpcPPohJ6BAA"
 
 
     - name: Get issue status
@@ -32,7 +32,14 @@ jobs:
       with:
         issue: ${{ inputs.issue }}
 
-    - name: Transition issue
+    - name: Transition to progress
+      uses: atlassian/gajira-transition@master
+      if: ${{ steps.get_status.outputs.result == 'To Do' }}
+      with:
+        issue: ${{ inputs.issue }}
+        transition: "In Progress"
+        
+    - name: Transition to review
       uses: atlassian/gajira-transition@master
       if: ${{ steps.get_status.outputs.result == 'To Do' }}
       with:

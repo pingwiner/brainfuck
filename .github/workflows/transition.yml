@@ -23,7 +23,7 @@ jobs:
       env:
         JIRA_BASE_URL: "https://im486dx.atlassian.net"
         JIRA_USER_EMAIL: "im486dx@gmail.com"
-        JIRA_API_TOKEN: "wbsfiZurYPlre1SQiF8J6267"
+        JIRA_API_TOKEN: "j4jloAHYBerb7aR1o6KnDEEC"
 
 
     - name: Get issue status

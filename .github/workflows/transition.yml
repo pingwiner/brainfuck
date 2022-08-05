@@ -23,7 +23,7 @@ jobs:
       env:
         JIRA_BASE_URL: "https://im486dx.atlassian.net"
         JIRA_USER_EMAIL: "im486dx@gmail.com"
-        JIRA_API_TOKEN: "Ad0mh36TI37x3JsoaWd7F00E"
+        JIRA_API_TOKEN: "wbsfiZurYPlre1SQiF8J6267"
 
 
     - name: Get issue status
@@ -37,4 +37,4 @@ jobs:
       if: ${{ steps.get_status.outputs.result == 'To Do' }}
       with:
         issue: ${{ inputs.issue }}
-        transition: "In Progress"
+        transition: "Code Review"
